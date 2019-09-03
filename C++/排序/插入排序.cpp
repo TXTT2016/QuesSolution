@@ -28,10 +28,42 @@ void inssort(Elem A[], int len)
 				swap(A[i], A[j]);
 }
 
+void insert_Sort(vector<int>& vec, int len)
+{
+	for (int i = 1; i < len; i++)
+		for (int j = 0; j < i; j++)
+			if (vec[i] < vec[j])
+				swap(vec[i], vec[j]);
+}
+
+//插入排序的每一次排位交换所花的时间比较多，一种优化方式就是将交换直接改成赋值，先将初始位的元素保存下来
+//这样不需要交换位置，交换操作全部转换成赋值即可
+
+//再加一步的优化则是减少比较次数，用折半查法能直接找到第一个比待比较元素小的元素，然后后面的赋值步骤之前则不需要进行大小的比较
+void insert_Sort_2(vector<int>& vec, int len)
+{
+	int flag;
+	for (int i = 1; i < len; i++)
+	{
+		flag = vec[i];
+		int j = i - 1;
+		for (; j >= 0; j--)
+		{
+			if (vec[j] > flag)
+				vec[j + 1] = vec[j];
+			else
+				break;
+		}
+		vec[j + 1] = flag;
+	}
+		
+}
+
+
 int main()
 {
 	vector<int> vec{ 20, 39, 12, 55, 34, 78, 56, 34 };
-	
+	insert_Sort_2(vec, vec.size());
 
 	return 0;
 }
